@@ -3,7 +3,6 @@
 class Swoop < Formula
   desc "Keyboard launcher built the Unix way: fzf finds, extensions print lines"
   homepage "https://github.com/beatzball/swoop"
-  version "0.6.1"
   license "MIT"
 
   depends_on "fzf"
