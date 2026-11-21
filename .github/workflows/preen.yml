@@ -1,0 +1,42 @@
+name: preen formula
+
+on:
+  pull_request:
+    paths:
+      - Formula/preen.rb
+      - .github/workflows/preen.yml
+  push:
+    branches: [main]
+    paths:
+      - Formula/preen.rb
+      - .github/workflows/preen.yml
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Tap the checked-out revision
+        run: brew tap beatzball/tap "$GITHUB_WORKSPACE"
+      - name: Install and verify the formula
+        shell: bash
+        run: |
+          git config --file "$HOME/.gitconfig" preen.layout inline
+          cp "$HOME/.gitconfig" "$RUNNER_TEMP/preen-gitconfig.before"
+
+          brew install --build-from-source beatzball/tap/preen
+          brew audit --strict beatzball/tap/preen
+          brew test beatzball/tap/preen
+
+          expected="preen $(cat "$(brew --prefix beatzball/tap/preen)/libexec/VERSION")"
+          test "$(preen --version)" = "$expected"
+          cmp "$RUNNER_TEMP/preen-gitconfig.before" "$HOME/.gitconfig"
+          test ! -e "$HOME/.gitconfig.preen.bak"
+          test ! -e "$HOME/.config/glow/roost.json"
