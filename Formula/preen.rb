@@ -1,8 +1,8 @@
 class Preen < Formula
   desc "Browse Markdown and diffs in the terminal"
   homepage "https://github.com/beatzball/preen"
-  url "https://github.com/beatzball/preen/archive/refs/tags/v0.5.0.tar.gz"
-  sha256 "bd80f0749e11cff5e48b02a29473f0a8f7ac304deeb734b5db80d43f1e42e191"
+  url "https://github.com/beatzball/preen/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "ef6e594e66b242b48a17064e9abbeecf281d5d760cbd5ba2d53aa390b449850f"
   license "MIT"
 
   depends_on "fzf"
